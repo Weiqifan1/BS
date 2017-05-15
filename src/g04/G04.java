@@ -18,22 +18,22 @@ public class G04 implements PlayerFactory<BattleshipsPlayer>{
 
     @Override
     public BattleshipsPlayer getNewInstance() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new MyShooter();
     }
 
     @Override
     public String getID() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "G04";
     }
 
     @Override
     public String getName() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return "ChrGertLene BS";
     }
 
     @Override
     public String[] getAuthors() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new String[] {"Christian", "Gert", "Lene"};
     }
     
 }
