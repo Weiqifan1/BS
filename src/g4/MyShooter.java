@@ -10,6 +10,7 @@ import battleship.interfaces.Board;
 import battleship.interfaces.Fleet;
 import battleship.interfaces.Position;
 import battleship.interfaces.Ship;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -44,6 +45,74 @@ public class MyShooter implements BattleshipsPlayer {
         nextY = 9;
         sizeX = board.sizeX();
         sizeY = board.sizeY();
+        ArrayList<Integer> potentialSpace = new ArrayList<Integer>();
+        ArrayList<Integer> usedSpaces = new ArrayList<Integer>();
+        
+        for(int i = 0; i < fleet.getNumberOfShips(); ++i)
+        {
+            Ship s = fleet.getShip(i);
+            boolean vertical = rnd.nextBoolean();
+            boolean goodSpace = false;
+            Position pos = new Position(0, 0);
+            
+            while (goodSpace == false){
+                if(vertical)
+                {
+                    
+                    int x = rnd.nextInt(sizeX);
+                    int y = rnd.nextInt(sizeY-(s.size()-1));
+                    pos = new Position(x, y);
+                    
+                    for (int j = 0; j < s.size(); j++) {
+                        int indexLtoRBtoT = x + (y*10)+(j*10);
+                        potentialSpace.add(indexLtoRBtoT);
+                    }
+                    boolean fieldIsOk = true;
+                    for (int j = 0; j < potentialSpace.size(); j++) {
+                        if (usedSpaces.contains(potentialSpace.get(j))) {
+                            fieldIsOk = false;
+                        }
+                    }
+                    if (fieldIsOk == true && potentialSpace.size() == s.size()) {
+                        usedSpaces.addAll(potentialSpace);
+                        goodSpace = true;
+                    }
+                    potentialSpace.clear();
+                    
+                    
+                }
+                else
+                {
+                    int x = rnd.nextInt(sizeX-(s.size()-1));
+                    int y = rnd.nextInt(sizeY);
+                    pos = new Position(x, y);
+                    
+                    for (int j = 0; j < s.size(); j++) {
+                        int indexLtoRBtoT = x + (y*10)+j;
+                        potentialSpace.add(indexLtoRBtoT);
+                    }
+                    boolean fieldIsOk = true;
+                    for (int j = 0; j < potentialSpace.size(); j++) {
+                        if (usedSpaces.contains(potentialSpace.get(j))) {
+                            fieldIsOk = false;
+                        }
+                    }
+                    if (fieldIsOk == true && potentialSpace.size() == s.size()) {
+                        usedSpaces.addAll(potentialSpace);
+                        goodSpace = true;
+                    }
+                    potentialSpace.clear();
+                }
+            }
+            board.placeShip(pos, s, vertical);
+        }
+    }
+    
+    /*
+    nextX = 9;
+        nextY = 9;
+        sizeX = board.sizeX();
+        sizeY = board.sizeY();
         for(int i = 0; i < fleet.getNumberOfShips(); ++i)
         {
             Ship s = fleet.getShip(i);
@@ -63,7 +132,7 @@ public class MyShooter implements BattleshipsPlayer {
             }
             board.placeShip(pos, s, vertical);
         }
-    }
+    */
 
     @Override
     public void incoming(Position pos) {
