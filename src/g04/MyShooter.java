@@ -40,8 +40,8 @@ public class MyShooter implements BattleshipsPlayer {
 
     @Override
     public void placeShips(Fleet fleet, Board board) {
-        nextX = 0;
-        nextY = 0;
+        nextX = 9;
+        nextY = 9;
         sizeX = board.sizeX();
         sizeY = board.sizeY();
         for(int i = 0; i < fleet.getNumberOfShips(); ++i)
@@ -73,14 +73,14 @@ public class MyShooter implements BattleshipsPlayer {
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
         Position shot = new Position(nextX, nextY);
-        ++nextX;
-        if(nextX >= sizeX)
+        --nextX;
+        if(nextX < 0)
         {
-            nextX = 0; 
-            ++nextY;
-            if(nextY >= sizeY)
+            nextX = 9; 
+            --nextY;
+            if(nextY < 0)
             {
-                nextY = 0;
+                nextY = 9;
             }
         }
         return shot;

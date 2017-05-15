@@ -7,7 +7,8 @@ package g04;
 
 import battleship.interfaces.BattleshipsPlayer;
 import tournament.player.PlayerFactory;
-
+import tournament.game.*;
+        
 /**
  *
  * @author Christian
