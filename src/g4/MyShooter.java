@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package g04;
+package g4;
 
 import battleship.interfaces.BattleshipsPlayer;
 import battleship.interfaces.Board;
