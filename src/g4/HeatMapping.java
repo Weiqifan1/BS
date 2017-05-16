@@ -5,6 +5,7 @@
  */
 package g4;
 
+import battleship.interfaces.Fleet;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -39,6 +40,17 @@ public class HeatMapping {
         return newsea;
 
     }
+    
+           
+    public int[] convertFleet(Fleet fleet) {
+        int shipCount = fleet.getNumberOfShips();
+        int[] fleetArray = new int[shipCount]; 
+        for (int i = 0; i < shipCount; i++) {
+            fleetArray[i] = fleet.getShip((shipCount-1)-i).size();
+        }
+        return fleetArray;
+    }
+
 
     public int[] distributeShips(int[] sea, int[] fleet) {
 
