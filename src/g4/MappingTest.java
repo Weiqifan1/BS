@@ -16,7 +16,9 @@ public class MappingTest {
       
         
         
-        nr01();
+        //nr01();
+        Kill kill = new Kill();
+        kill.nr02();
     
         
         
