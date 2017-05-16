@@ -5,6 +5,10 @@
  */
 package g4;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  *
  * @author GertLehmann
@@ -58,12 +62,33 @@ public class MappingTest {
         int[] heat1 = heatmap.simpleHeatMap(sea, fleet1);
         heatmap.printHeatmap(10000, heat1);
         System.out.println("");
+        
+        int index = 0;
+        for (int i = 1; i < heat1.length; i++) {
+            if (heat1[index]<=heat1[i]) {
+                index = i;
+            } 
+            
+        }
+         System.out.println("x = " + (index%10) + " , Y = " + (9-index/10));
+             
+
+
 
         System.out.println("simple heatmap:");
         int[] fleet = {2, 3, 3, 4};
         int[] heat = heatmap.simpleHeatMap(sea, fleet);
         heatmap.printHeatmap(10000, heat);
 
+        index = 0;
+        for (int i = 1; i < heat.length; i++) {
+            if (heat[index]<=heat[i]) {
+                index = i;
+            } 
+            
+        }
+        System.out.println("x = " + (index%10) + " , Y = " + (9-index/10));
+        
     }   
     
 }

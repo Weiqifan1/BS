@@ -11,6 +11,9 @@ import battleship.interfaces.Fleet;
 import battleship.interfaces.Position;
 import battleship.interfaces.Ship;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -26,7 +29,7 @@ public class MyShooter implements BattleshipsPlayer {
     private int nextX;
     private int nextY;
 
-    private HeatMapping heatmap = new HeatMapping();
+    private HeatMapping mapping = new HeatMapping();
     private int[] seaMap;
 
     public MyShooter() {
@@ -141,17 +144,25 @@ public class MyShooter implements BattleshipsPlayer {
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
         
-        
-        
-        Position shot = new Position(nextX, nextY);
-        --nextX;
-        if (nextX < 0) {
-            nextX = 9;
-            --nextY;
-            if (nextY < 0) {
-                nextY = 9;
-            }
+        int shipCount = enemyShips.getNumberOfShips();
+        int[] mapFleet = new int[shipCount]; 
+        for (int i = 0; i < shipCount; i++) {
+            mapFleet[i] = enemyShips.getShip(i).size();
         }
+        int[] heatMap = mapping.simpleHeatMap(seaMap, mapFleet);
+        int index = 0;
+        for (int i = 1; i < heatMap.length; i++) {
+            if (heatMap[index]<=heatMap[i]) {
+                index = i;
+            } 
+            
+        }
+        nextX = index%10;
+        nextY = 9-index/10;
+        
+  
+        Position shot = new Position(nextX, nextY);
+
         return shot;
     }
 
