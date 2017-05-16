@@ -22,7 +22,8 @@ public class HeatMapping {
     private int nextY;
 
     public int[] simpleHeatMap(int[] sea, int[] fleet) {
-        int iterations = 1000000;
+
+        int iterations = 100000;
         int[] newsea = new int[10 * 10];
 
         int[] tempsea = null;
@@ -34,6 +35,7 @@ public class HeatMapping {
                 }
             }
         }
+
         return newsea;
 
     }
@@ -53,12 +55,15 @@ public class HeatMapping {
 
         for (int i = 0; i < fleet.length; ++i) {
             int s = fleet[i];
-            boolean vertical = rnd.nextBoolean();
+            boolean vertical;
+
             boolean goodSpace = false;
 
             while (goodSpace == false) {
+                vertical = rnd.nextBoolean();
+                
                 if (vertical) {
-
+                    
                     int x = rnd.nextInt(sizeX);
                     int y = rnd.nextInt(sizeY - (s - 1));//rnd.nextInt(sizeY-(s-1));
 
@@ -90,6 +95,7 @@ public class HeatMapping {
                     for (int j = 0; j < potentialSpace.size(); j++) {
                         if (usedSpaces.contains(potentialSpace.get(j)) || newsea[potentialSpace.get(j)] < 1) {
                             fieldIsOk = false;
+                            
                         }
                     }
                     if (fieldIsOk == true && potentialSpace.size() == s) {

@@ -31,6 +31,7 @@ public class MyShooter implements BattleshipsPlayer {
 
     private HeatMapping mapping = new HeatMapping();
     private int[] seaMap;
+    int[] heatMap;
 
     public MyShooter() {
     }
@@ -49,6 +50,16 @@ public class MyShooter implements BattleshipsPlayer {
 
     @Override
     public void placeShips(Fleet fleet, Board board) {
+
+        int shipCount = fleet.getNumberOfShips();
+        System.out.println(shipCount);
+        int[] mapFleet = new int[shipCount]; 
+        for (int i = 0; i < shipCount; i++) {
+            mapFleet[i] = fleet.getShip(i).size();
+        }
+        heatMap = mapping.simpleHeatMap(seaMap, mapFleet);
+
+
         nextX = 9;
         nextY = 9;
         sizeX = board.sizeX();
@@ -144,12 +155,6 @@ public class MyShooter implements BattleshipsPlayer {
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
         
-        int shipCount = enemyShips.getNumberOfShips();
-        int[] mapFleet = new int[shipCount]; 
-        for (int i = 0; i < shipCount; i++) {
-            mapFleet[i] = enemyShips.getShip(i).size();
-        }
-        int[] heatMap = mapping.simpleHeatMap(seaMap, mapFleet);
         int index = 0;
         for (int i = 1; i < heatMap.length; i++) {
             if (heatMap[index]<=heatMap[i]) {
@@ -160,9 +165,12 @@ public class MyShooter implements BattleshipsPlayer {
         nextX = index%10;
         nextY = 9-index/10;
         
-  
+        
+        System.out.println("(" + nextX + "," + nextY + ")");
+        
         Position shot = new Position(nextX, nextY);
 
+        heatMap[index] = -1;
         return shot;
     }
 
