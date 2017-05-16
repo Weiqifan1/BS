@@ -18,25 +18,30 @@ import java.util.Random;
  * @author Christian
  */
 public class MyShooter implements BattleshipsPlayer {
-    
+
     private final static Random rnd = new Random();
     private int sizeX;
     private int sizeY;
-    
+
     private int nextX;
     private int nextY;
-    
+
+    private HeatMapping heatmap = new HeatMapping();
+    private int[] seaMap;
+
     public MyShooter() {
     }
 
     @Override
     public void startMatch(int rounds, Fleet ships, int sizeX, int sizeY) {
-        //do ntohing
+        seaMap = new int[sizeX * sizeY];
     }
 
     @Override
     public void startRound(int round) {
-        //Do nothing
+        for (int i = 0; i < seaMap.length; i++) {
+            seaMap[i] = 1;
+        }
     }
 
     @Override
@@ -47,24 +52,22 @@ public class MyShooter implements BattleshipsPlayer {
         sizeY = board.sizeY();
         ArrayList<Integer> potentialSpace = new ArrayList<Integer>();
         ArrayList<Integer> usedSpaces = new ArrayList<Integer>();
-        
-        for(int i = 0; i < fleet.getNumberOfShips(); ++i)
-        {
+
+        for (int i = 0; i < fleet.getNumberOfShips(); ++i) {
             Ship s = fleet.getShip(i);
             boolean vertical = rnd.nextBoolean();
             boolean goodSpace = false;
             Position pos = new Position(0, 0);
-            
-            while (goodSpace == false){
-                if(vertical)
-                {
-                    
+
+            while (goodSpace == false) {
+                if (vertical) {
+
                     int x = rnd.nextInt(sizeX);
-                    int y = rnd.nextInt(sizeY-(s.size()-1));
+                    int y = rnd.nextInt(sizeY - (s.size() - 1));
                     pos = new Position(x, y);
-                    
+
                     for (int j = 0; j < s.size(); j++) {
-                        int indexLtoRBtoT = x + (y*10)+(j*10);
+                        int indexLtoRBtoT = x + (y * 10) + (j * 10);
                         potentialSpace.add(indexLtoRBtoT);
                     }
                     boolean fieldIsOk = true;
@@ -78,17 +81,14 @@ public class MyShooter implements BattleshipsPlayer {
                         goodSpace = true;
                     }
                     potentialSpace.clear();
-                    
-                    
-                }
-                else
-                {
-                    int x = rnd.nextInt(sizeX-(s.size()-1));
+
+                } else {
+                    int x = rnd.nextInt(sizeX - (s.size() - 1));
                     int y = rnd.nextInt(sizeY);
                     pos = new Position(x, y);
-                    
+
                     for (int j = 0; j < s.size(); j++) {
-                        int indexLtoRBtoT = x + (y*10)+j;
+                        int indexLtoRBtoT = x + (y * 10) + j;
                         potentialSpace.add(indexLtoRBtoT);
                     }
                     boolean fieldIsOk = true;
@@ -107,7 +107,7 @@ public class MyShooter implements BattleshipsPlayer {
             board.placeShip(pos, s, vertical);
         }
     }
-    
+
     /*
     nextX = 9;
         nextY = 9;
@@ -132,8 +132,7 @@ public class MyShooter implements BattleshipsPlayer {
             }
             board.placeShip(pos, s, vertical);
         }
-    */
-
+     */
     @Override
     public void incoming(Position pos) {
         //Do nothing
@@ -141,14 +140,15 @@ public class MyShooter implements BattleshipsPlayer {
 
     @Override
     public Position getFireCoordinates(Fleet enemyShips) {
+        
+        
+        
         Position shot = new Position(nextX, nextY);
         --nextX;
-        if(nextX < 0)
-        {
-            nextX = 9; 
+        if (nextX < 0) {
+            nextX = 9;
             --nextY;
-            if(nextY < 0)
-            {
+            if (nextY < 0) {
                 nextY = 9;
             }
         }
@@ -169,5 +169,5 @@ public class MyShooter implements BattleshipsPlayer {
     public void endMatch(int won, int lost, int draw) {
         //Do nothing
     }
-    
+
 }
